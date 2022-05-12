@@ -1,45 +1,74 @@
 package ui.pages;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProfilePage {
-    private final SelenideElement writeLetter = $x("//*[text()='Написать письмо']");
-    private final SelenideElement sendLetter = $x("//*[text()='Отправить']");
+    private final SelenideElement writeEmail = $x("//*[text()='Написать письмо']");
+    private final SelenideElement sendEmail = $x("//*[text()='Отправить']");
     private final SelenideElement fieldTo = $x("//label[@class='container--zU301']");
     private final SelenideElement fieldTopic = $x("//input[@name='Subject']");
     private final SelenideElement fieldText = $x("//div[@role='textbox']");
     private final SelenideElement emailHasBeenSend = $x("//*[text()='Письмо отправлено']");
+    private final SelenideElement closeWindow = $x("//span[@title='Закрыть']");
     private final SelenideElement countEmail = $x("//span[@class='badge__text']");
+    private final SelenideElement emailsToYourself = $x("//*[text()='Письма себе']");
+    private final SelenideElement bucket = $x("//*[text()='Корзина']");
+    private final ElementsCollection listCheckBox = $$x("//div[@class='checkbox__box']");
+    private final ElementsCollection listEmail = $$x("//div[@class='llc__background']");
+    private final ElementsCollection listEmailsTopic = $$x("//span[@class='ll-sj__normal']");
+    private final SelenideElement deleteEmail = $x("//span[@title='Удалить']");
 
     private static final String TO = "testuiselenide@mail.ru";
     private static final String TOPIC = "Тестовая тема письма " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     private static final String TEXT = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
+    //Нажать на кнопку "Написать письмо"
     public void clickWriteEmail() {
-        writeLetter.click();
+        writeEmail.click();
     }
 
+    /*
+        Заполнить форму письма
+        Отправить
+        Закрыть окно отправленного письма
+        Проверить, что количество писем увеличилось на 1
+    */
     public void sendAndCheckCountEmail() {
-        int before = checkCountEmail();
+        //Переделать с помощью нового Page Object - EmailWindowPage
+        int emailBefore = checkCountEmail();
         fieldTo.sendKeys(TO);
         fieldTopic.sendKeys(TOPIC);
         fieldText.sendKeys(TEXT);
-        sendLetter.click();
+        sendEmail.click();
         emailHasBeenSend.shouldBe(visible);
+        closeWindow.click();
 
-        int after = waitCountEmail(before);
-        Assertions.assertEquals(1, (after - before));
+        int emailAfter = waitCountEmail(emailBefore);
+        assertEquals(1, (emailAfter - emailBefore));
+    }
 
-        //добавлено письмо с темой, которая заполнена при отправлении - доделать
+    /*
+        Проверить тему верхнего письма
+    */
+    public void checkTopicEmail() {
+        listEmailsTopic.get(0).shouldHave(text(TOPIC));
+    }
+
+    public void choseAndDeleteEmail() {
+        listEmail.get(0).hover();
+        listCheckBox.get(0).click();
+        deleteEmail.click();
+        listEmailsTopic.get(0).shouldNotHave(text(TOPIC));
     }
 
     private int checkCountEmail() {
@@ -49,17 +78,28 @@ public class ProfilePage {
                         .getText());
     }
 
-    private int waitCountEmail(int before) {
+    private int waitCountEmail(int emailsBefore) {
         for (int i = 0; i < 10; i++) {
-            int after = checkCountEmail();
+            int emailAfter = checkCountEmail();
 
-            if (after > before) {
-                return after;
+            //добавить try catch с логгером
+            if (emailAfter > emailsBefore) {
+                return emailAfter;
             } else {
                 sleep(500);
             }
         }
-        return before;
+        return emailsBefore;
+    }
+
+    //Перейти в "Письма себе"
+    public void moveToYourself() {
+        emailsToYourself.click();
+    }
+
+    //Перейти в корзину
+    public void moveToBucket() {
+        bucket.click();
     }
 
 }

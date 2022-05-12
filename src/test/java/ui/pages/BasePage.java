@@ -7,8 +7,6 @@ import com.codeborne.selenide.SelenideElement;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
-import static com.codeborne.selenide.Selenide.open;
-
 public abstract class BasePage {
     protected static final String BASE_URL = "https://mail.ru/";
 

@@ -32,22 +32,26 @@ public class TestMail {
     //2) Написать письмо и отправить себе (проверить, что количество писем увеличилось на 1, добавлено письмо с темой, которая заполнена при отправлении)
     @Test
     @Order(2)
-    void checkWritingAndSendingLetter() {
+    void checkWritingAndSendingEmail() {
         profilePage.clickWriteEmail();
         profilePage.sendAndCheckCountEmail();
+        profilePage.moveToYourself();
+        profilePage.checkTopicEmail();
     }
 
     //3) Удалить одно письмо (проверить, что во входящих нет удалённого письма и оно появилось в корзине)
     @Test
     @Order(3)
     void checkDeletingEmail() {
-
+        profilePage.choseAndDeleteEmail();
+        profilePage.moveToBucket();
+        profilePage.checkTopicEmail();
     }
 
     //4) Написать письмо и сохранить его в черновиках (не отправлять)
     @Test
     @Order(4)
-    void checkWritingAndSavingLetterInDrafts() {
+    void checkWritingAndSavingEmailInDrafts() {
 
     }
 
@@ -55,7 +59,7 @@ public class TestMail {
     //5) Удалить одно письмо из черновиков (проверить, что количество черновиков уменьшилось на 1)
     @Test
     @Order(5)
-    void checkDeletingLetterFromDrafts() {
+    void checkDeletingEmailFromDrafts() {
 
     }
 
