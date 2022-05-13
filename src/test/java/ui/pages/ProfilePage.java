@@ -12,9 +12,11 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProfilePage {
+public class ProfilePage extends BasePage {
     private final SelenideElement writeEmail = $x("//*[text()='Написать письмо']");
     private final SelenideElement sendEmail = $x("//*[text()='Отправить']");
+    private final SelenideElement saveInDrafts = $x("//*[text()='Сохранить']");
+    private final SelenideElement cancel = $x("//*[text()='Отменить']");
     private final SelenideElement fieldTo = $x("//label[@class='container--zU301']");
     private final SelenideElement fieldTopic = $x("//input[@name='Subject']");
     private final SelenideElement fieldText = $x("//div[@role='textbox']");
@@ -23,10 +25,11 @@ public class ProfilePage {
     private final SelenideElement countEmail = $x("//span[@class='badge__text']");
     private final SelenideElement emailsToYourself = $x("//*[text()='Письма себе']");
     private final SelenideElement bucket = $x("//*[text()='Корзина']");
+    private final SelenideElement deleteEmail = $x("//span[@title='Удалить']");
+
     private final ElementsCollection listCheckBox = $$x("//div[@class='checkbox__box']");
     private final ElementsCollection listEmail = $$x("//div[@class='llc__background']");
     private final ElementsCollection listEmailsTopic = $$x("//span[@class='ll-sj__normal']");
-    private final SelenideElement deleteEmail = $x("//span[@title='Удалить']");
 
     private static final String TO = "testuiselenide@mail.ru";
     private static final String TOPIC = "Тестовая тема письма " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -71,6 +74,22 @@ public class ProfilePage {
         listEmailsTopic.get(0).shouldNotHave(text(TOPIC));
     }
 
+    public void saveEmailInDrafts() {
+        fieldTo.sendKeys(TO);
+        fieldTopic.sendKeys(TOPIC);
+        fieldText.sendKeys(TEXT);
+        saveInDrafts.click();
+        cancel.click();
+        listEmailsTopic.get(0).shouldHave(text(TOPIC));
+    }
+
+    public void deleteEmailFromDrafts() {
+        int countEmailsBefore = listEmail.size();
+        choseAndDeleteEmail();
+        int countEmailsAfter = listEmail.size();
+        assertEquals(1, countEmailsBefore - countEmailsAfter);
+    }
+
     private int checkCountEmail() {
         return Integer.parseInt(
                 countEmail
@@ -100,6 +119,10 @@ public class ProfilePage {
     //Перейти в корзину
     public void moveToBucket() {
         bucket.click();
+    }
+
+    public void moveToDrafts() {
+
     }
 
 }
