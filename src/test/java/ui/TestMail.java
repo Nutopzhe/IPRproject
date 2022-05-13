@@ -39,7 +39,7 @@ public class TestMail {
     @DisplayName("Отправка письма. Проверка темы и количества писем")
     void checkWritingAndSendingEmail() {
         profilePage.clickWriteEmail();
-        profilePage.sendAndCheckCountEmail();
+        profilePage.sendAndCheckCountEmail(emailWindowPage);
         profilePage.moveToYourself();
         profilePage.checkTopicEmail();
     }
@@ -60,7 +60,8 @@ public class TestMail {
     @DisplayName("Сохранение письма в черновиках")
     void checkWritingAndSavingEmailInDrafts() {
         profilePage.clickWriteEmail();
-        profilePage.saveEmailInDrafts();
+        emailWindowPage.saveEmailInDrafts();
+        profilePage.checkTopicEmail();
     }
 
 
