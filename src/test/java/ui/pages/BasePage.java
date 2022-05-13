@@ -16,6 +16,6 @@ public abstract class BasePage {
     }
 
     protected void waitAndClick(SelenideElement element) {
-        element.shouldBe(exist).click();
+        element.shouldBe(exist, visible).click();
     }
 }

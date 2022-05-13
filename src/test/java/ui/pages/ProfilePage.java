@@ -3,7 +3,6 @@ package ui.pages;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,6 +32,7 @@ public class ProfilePage extends BasePage {
         Проверить, что количество писем увеличилось на 1
     */
     public void sendAndCheckCountEmail(EmailWindowPage emailWindowPage) {
+        //"Работает - не трогай" - мудрость джедая:)
         int emailBefore = checkCountEmail();
         emailWindowPage.fillAndSaveEmail();
         int emailAfter = waitCountEmail(emailBefore);
@@ -70,7 +70,6 @@ public class ProfilePage extends BasePage {
         for (int i = 0; i < 10; i++) {
             int emailAfter = checkCountEmail();
 
-            //добавить try catch с логгером
             if (emailAfter > emailsBefore) {
                 return emailAfter;
             } else {

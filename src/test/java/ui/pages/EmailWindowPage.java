@@ -16,7 +16,6 @@ public class EmailWindowPage extends BasePage {
     private final SelenideElement buttonCancel = $x("//*[text()='Отменить']");
     private final SelenideElement buttonSendEmail = $x("//*[text()='Отправить']");
     private final SelenideElement buttonCloseWindow = $x("//span[@title='Закрыть']");
-
     private final SelenideElement emailHasBeenSend = $x("//*[text()='Письмо отправлено']");
 
     public static final String TO = "testuiselenide@mail.ru";

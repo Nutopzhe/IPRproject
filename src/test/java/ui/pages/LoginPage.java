@@ -1,8 +1,8 @@
 package ui.pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
-import org.junit.jupiter.api.Assertions;
 
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -27,7 +27,6 @@ public class LoginPage extends BasePage {
     }
 
     public void checkEmail(String login) {
-        String loginInPage = loggedInEmail.getText();
-        Assertions.assertEquals(loginInPage, login);
+        loggedInEmail.shouldHave(Condition.text(login));
     }
 }
