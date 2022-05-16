@@ -9,7 +9,7 @@ import ui.pages.ProfilePage;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 @TestMethodOrder(OrderAnnotation.class)
-public class TestMail {
+public class UITestMail {
     public static final String LOGIN = "testuiselenide@mail.ru";
     public static final String PASSWORD = "i21)IvuapSAT";
 
