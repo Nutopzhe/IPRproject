@@ -64,7 +64,6 @@ public class UITestMail {
         profilePage.checkTopicEmail();
     }
 
-
     //5) Удалить одно письмо из черновиков (проверить, что количество черновиков уменьшилось на 1)
     @Test
     @Order(5)
