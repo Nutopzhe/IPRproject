@@ -2,14 +2,33 @@ package ui.pages;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-
 import java.util.List;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ProfilePage extends BasePage {
+
+    //Проверка темы в списке писем по переданному значению
+    public void checkTopicInEmailList(String value) {
+        List<String> topics = getListOfEmailsTopics().texts();
+        int index;
+        for (String topic : topics) {
+            if (topic.equals(value)) {
+                index = topics.indexOf(topic);
+                getListOfEmailsTopics().get(index).shouldHave(text(value));
+                break;
+            }
+        }
+    }
+
+    //Выбор и удаление письма по индексу
+    public void choseAndDeleteEmail(int index) {
+        getListEmails().get(index).hover();
+        getListCheckBox().get(index).click();
+        getButtonDeleteEmail().click();
+        sleep(1000);
+    }
 
     //Получить кнопку "Написать письмо"
     public SelenideElement getButtonWriteEmail() {
@@ -59,44 +78,5 @@ public class ProfilePage extends BasePage {
     //Получить список чек-боксов
     public ElementsCollection getListCheckBox() {
         return $$x("//div[@class='checkbox__box']");
-    }
-
-    //Проверка темы в списке писем по переданному значению
-    public void checkTopicInEmailList(String value) {
-        List<String> topics = getListOfEmailsTopics().texts();
-        int index;
-        for (String topic : topics) {
-            if (topic.equals(value)) {
-                index = topics.indexOf(topic);
-                getListOfEmailsTopics().get(index).shouldHave(text(value));
-                break;
-            }
-        }
-    }
-
-    public void choseAndDeleteEmail(int index) {
-        getListEmails().get(index).hover();
-        getListCheckBox().get(index).click();
-        getButtonDeleteEmail().click();
-        sleep(1000);
-    }
-
-    public void deleteEmailFromDrafts() {
-        int countEmailsBefore = getListEmails().size();
-        choseAndDeleteEmail(0);
-        int countEmailsAfter = getListEmails().size();
-        assertEquals(1, (countEmailsBefore - countEmailsAfter));
-    }
-
-    public int getEmailCount() {
-        return Integer.parseInt(
-                getCountEmailsToYourself()
-                        .shouldBe(visible)
-                        .getText());
-    }
-
-    //Получить количество писем себе
-    private SelenideElement getCountEmailsToYourself() {
-        return $x("//span[@class='badge__text']");
     }
 }
