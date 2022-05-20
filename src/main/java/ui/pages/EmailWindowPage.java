@@ -2,10 +2,8 @@ package ui.pages;
 
 import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
-import static com.codeborne.selenide.Selenide.sleep;
 
 public class EmailWindowPage extends BasePage {
 
@@ -18,16 +16,15 @@ public class EmailWindowPage extends BasePage {
 
     //Метод отправки письма
     public void sendEmail() {
-        getButtonSendEmail().shouldBe(exist, visible).click();
+        getButtonSendEmail().shouldBe(visible).click();
         getNotificationEmailHasBeSend().shouldBe(visible);
-        getButtonCloseWindow().shouldBe(exist, visible).click();
-        sleep(1000);
+        getButtonCloseWindow().shouldBe(visible).click();
     }
 
     //Метод сохранения письма в черновиках
     public void saveEmailInDrafts() {
-        getButtonSaveInDrafts().shouldBe(exist, visible).click();
-        getButtonCancel().shouldBe(exist, visible). click();
+        getButtonSaveInDrafts().shouldBe(visible).click();
+        getButtonCancel().shouldBe(visible). click();
     }
 
     //Получить поле "Кому"

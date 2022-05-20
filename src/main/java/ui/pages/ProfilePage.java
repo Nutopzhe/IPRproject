@@ -4,22 +4,17 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class ProfilePage extends BasePage {
 
     //Проверка темы в списке писем по переданному значению
-    public void checkTopicInEmailList(String value) {
+    public boolean checkTopicInEmailList(String value) {
         List<String> topics = getListOfEmailsTopics().texts();
-        int index;
-        for (String topic : topics) {
-            if (topic.equals(value)) {
-                index = topics.indexOf(topic);
-                getListOfEmailsTopics().get(index).shouldHave(text(value));
-                break;
-            }
-        }
+        if (topics.contains(value)) {
+            return true;
+        } else
+            throw new RuntimeException("В списке писем нет письма с темой " + value);
     }
 
     //Выбор и удаление письма по индексу
@@ -27,7 +22,6 @@ public class ProfilePage extends BasePage {
         getListEmails().get(index).hover();
         getListCheckBox().get(index).click();
         getButtonDeleteEmail().click();
-        sleep(1000);
     }
 
     //Получить кнопку "Написать письмо"
