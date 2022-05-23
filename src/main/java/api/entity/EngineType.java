@@ -1,5 +1,7 @@
 package api.entity;
 
+//перечисление типов двигателя
+
 public enum EngineType {
     DIESEL ("Diesel"),
     CNG ("CNG"),
