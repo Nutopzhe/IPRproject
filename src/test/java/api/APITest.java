@@ -3,8 +3,8 @@ package api;
 import api.dao.CarDAOImpl;
 import api.dao.UserDAOImpl;
 import api.entity.Car;
-import api.utils.EngineType;
 import api.entity.User;
+import api.utils.EntityGenerator;
 import api.utils.HttpClientUtil;
 import org.junit.jupiter.api.*;
 
@@ -38,12 +38,7 @@ public class APITest {
     @DisplayName("Добавить нового user, проверить в БД")
     void addNewUserTest() {
         //добавить генератор пользователей
-        User user = new User();
-        user.setFirstName("Niko")
-                .setSecondName("Fisherman")
-                .setAge(29)
-                .setSex("MALE")
-                .setMoney(66666.66);
+        User user = EntityGenerator.getUser();
         User userResponse = HttpClientUtil.addUser(user);
 
         assertTrue(HttpClientUtil.getAllUsers().contains(userResponse));
@@ -52,12 +47,7 @@ public class APITest {
     @Test
     @DisplayName("Добавить новую car, проверить в БД")
     void addNewCarTest() {
-        //добавить генератор машин
-        Car car = new Car();
-        car.setEngineType(EngineType.DIESEL.getNameType())
-                .setMark("Toyota")
-                .setModel("Land Cruser")
-                .setPrice(7234561.00);
+        Car car = EntityGenerator.getCar();
         Car carResponse = HttpClientUtil.addCar(car);
 
         assertTrue(HttpClientUtil.getAllCars().contains(carResponse));

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarDAOImpl implements CarDAO {
+    //метод получения всех машин из БД
     @Override
     public List<Car> getAllCars() {
         List cars = new ArrayList<>();
@@ -18,6 +19,7 @@ public class CarDAOImpl implements CarDAO {
             CriteriaQuery<Car> criteriaQuery = session.getCriteriaBuilder().createQuery(Car.class);
             criteriaQuery.from(Car.class);
 
+            //SQL запрос на получение машины (объединение двух таблиц person и engine_type)
             cars = session.createNativeQuery("select car.id, mark, model, price, type_name from car \n" +
                     "join engine_type \n" +
                     "\ton car.engine_type_id = engine_type.id \n" +
@@ -32,6 +34,7 @@ public class CarDAOImpl implements CarDAO {
         return cars;
     }
 
+    //метод получение машины по id из БД
     @Override
     public Car getCarById(Integer carId) {
         Car car = null;
@@ -47,6 +50,7 @@ public class CarDAOImpl implements CarDAO {
         return car;
     }
 
+    //метод добавления машины в БД
     @Override
     public void addCar(Car car) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {

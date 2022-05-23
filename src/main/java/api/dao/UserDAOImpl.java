@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
+    //метод получение всех пользователей из БД
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
@@ -36,6 +37,7 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 
+    //метод получения пользователя по id из БД
     @Override
     public User getUserById(Integer userId) {
         User user = null;
@@ -58,6 +60,7 @@ public class UserDAOImpl implements UserDAO {
         return user;
     }
 
+    //метод добавления пользователя в БД
     @Override
     public void addUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
