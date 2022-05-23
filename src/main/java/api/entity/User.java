@@ -1,11 +1,13 @@
 package api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Proxy(lazy = false)
 @Entity
 @Table(name = "person")
 public class User {

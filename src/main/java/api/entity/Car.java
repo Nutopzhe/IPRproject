@@ -1,11 +1,13 @@
 package api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Proxy(lazy = false)
 @Entity
 @Table(name = "car")
 public class Car {
@@ -24,40 +26,45 @@ public class Car {
         return id;
     }
 
-    public void setId(Integer id) {
+    public Car setId(Integer id) {
         this.id = id;
+        return this;
     }
 
     public String getEngineType() {
         return engineType;
     }
 
-    public void setEngineType(String engineType) {
+    public Car setEngineType(String engineType) {
         this.engineType = engineType;
+        return this;
     }
 
     public String getMark() {
         return mark;
     }
 
-    public void setMark(String mark) {
+    public Car setMark(String mark) {
         this.mark = mark;
+        return this;
     }
 
     public String getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public Car setModel(String model) {
         this.model = model;
+        return this;
     }
 
     public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public Car setPrice(Double price) {
         this.price = price;
+        return this;
     }
 
     @Override
