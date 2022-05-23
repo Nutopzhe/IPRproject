@@ -2,10 +2,7 @@ package api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -13,73 +10,70 @@ import java.util.Objects;
 @Table(name = "person")
 public class User {
     @Id
-    private int id;
+    private Integer id;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "second_name")
     private String secondName;
-    private int age;
-    private boolean sex;
-    private double money;
+    private Integer age;
+    private String sex;
+    private Double money;
 
     public User() {
     }
 
-    public User(int id, String firstName, String secondName, int age, boolean sex, double money) {
-        this.id = id;
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.age = age;
-        this.sex = sex;
-        this.money = money;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public User setId(Integer id) {
         this.id = id;
+        return this;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public User setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getSecondName() {
         return secondName;
     }
 
-    public void setSecondName(String secondName) {
+    public User setSecondName(String secondName) {
         this.secondName = secondName;
+        return this;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public User setAge(Integer age) {
         this.age = age;
+        return this;
     }
 
-    public boolean getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(boolean sex) {
+    public User setSex(String sex) {
         this.sex = sex;
+        return this;
     }
 
-    public double getMoney() {
+    public Double getMoney() {
         return money;
     }
 
-    public void setMoney(double money) {
+    public User setMoney(Double money) {
         this.money = money;
+        return this;
     }
 
     @Override
@@ -99,10 +93,10 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id
-                && age == user.age
+        return Objects.equals(id, user.id)
                 && Objects.equals(firstName, user.firstName)
                 && Objects.equals(secondName, user.secondName)
+                && Objects.equals(age, user.age)
                 && Objects.equals(sex, user.sex)
                 && Objects.equals(money, user.money);
     }
