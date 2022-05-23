@@ -37,7 +37,7 @@ public class APITest {
     @Test
     @DisplayName("Добавить нового user, проверить в БД")
     void addNewUserTest() {
-        //добавить генератор пользователей
+        //генератор пользователей
         User user = EntityGenerator.getUser();
         User userResponse = HttpClientUtil.addUser(user);
 
@@ -47,6 +47,7 @@ public class APITest {
     @Test
     @DisplayName("Добавить новую car, проверить в БД")
     void addNewCarTest() {
+        //генератор машин
         Car car = EntityGenerator.getCar();
         Car carResponse = HttpClientUtil.addCar(car);
 
