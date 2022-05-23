@@ -3,11 +3,10 @@ package api.utils;
 import api.entity.Car;
 import api.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import config.Config;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -19,13 +18,13 @@ import java.util.List;
 
 public class HttpClientUtil {
 
-    private static final String URL = "http://77.50.236.203:4880";
+    private static String url = Config.getProperty("api.url");
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static User updateMoneyForUser(int userId, double money) {
         User userResponse = null;
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost(URL + String.format("/user/%s/money/%s", userId, money));
+            HttpPost request = new HttpPost(url + String.format("/user/%s/money/%s", userId, money));
 
             HttpResponse response = client.execute(request);
             if (response.getStatusLine().getStatusCode() == 200) {
@@ -40,7 +39,7 @@ public class HttpClientUtil {
     public static User addUser(User user) {
         User userResponse = new User();
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost(URL + "/addUser");
+            HttpPost request = new HttpPost(url + "/addUser");
 
             StringEntity entity = new StringEntity(mapper.writeValueAsString(user));
             request.setEntity(entity);
@@ -60,7 +59,7 @@ public class HttpClientUtil {
     public static Car addCar(Car car) {
         Car carResponse = new Car();
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost(URL + "/addCar");
+            HttpPost request = new HttpPost(url + "/addCar");
 
             StringEntity entity = new StringEntity(mapper.writeValueAsString(car));
             request.setEntity(entity);
@@ -81,7 +80,7 @@ public class HttpClientUtil {
         List<User> users = new ArrayList<>();
         try (CloseableHttpClient client = HttpClients.createDefault()) {
 
-            HttpResponse response = client.execute(new HttpGet(URL + "/users"));
+            HttpResponse response = client.execute(new HttpGet(url + "/users"));
             if (response.getStatusLine().getStatusCode() == 200) {
                 users = Arrays.asList(mapper.readValue(response.getEntity().getContent(), User[].class));
             }
@@ -95,7 +94,7 @@ public class HttpClientUtil {
         List<Car> cars = new ArrayList<>();
         try (CloseableHttpClient client = HttpClients.createDefault()) {
 
-            HttpResponse response = client.execute(new HttpGet(URL + "/cars"));
+            HttpResponse response = client.execute(new HttpGet(url + "/cars"));
             if (response.getStatusLine().getStatusCode() == 200) {
                 cars = Arrays.asList(mapper.readValue(response.getEntity().getContent(), Car[].class));
             }

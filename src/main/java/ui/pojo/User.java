@@ -1,6 +1,6 @@
 package ui.pojo;
 
-import ui.utils.Config;
+import config.Config;
 
 public class User {
     private String login = Config.getProperty("login");

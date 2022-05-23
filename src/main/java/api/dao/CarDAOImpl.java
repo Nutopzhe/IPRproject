@@ -17,7 +17,7 @@ public class CarDAOImpl implements CarDAO {
             //получить все машины и заполнить список cars
             CriteriaQuery<Car> criteriaQuery = session.getCriteriaBuilder().createQuery(Car.class);
             criteriaQuery.from(Car.class);
-//            cars = session.createQuery(criteriaQuery).getResultList();
+
             cars = session.createNativeQuery("select car.id, mark, model, price, type_name from car \n" +
                     "join engine_type \n" +
                     "\ton car.engine_type_id = engine_type.id \n" +
