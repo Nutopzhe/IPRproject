@@ -13,6 +13,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+    1 - доделать фабрику синглтон
+    2 - оставить url в HttpClientUtil, всю реализацию перенести в другой класс
+    3 - связать столбцы (OneToOne и тд)
+    + 4 - addMoneyForUserByIdTest округлить актуальный результат
+ */
+
 public class APITest {
     UserDAO userDAO = FactoryDAO.getInstance().getUserDAO();
     CarDAO carDAO = FactoryDAO.getInstance().getCarDAO();
@@ -60,13 +67,14 @@ public class APITest {
     void addMoneyForUserByIdTest() {
         //добавлять деньги user с этим id
         int id = 28;
-        double moneyBefore = userDAO.getUserById(id).getMoney();
-        double amountMoneyAdded = 4.04;
+        Double moneyBefore = userDAO.getUserById(id).getMoney();
+        Double amountMoneyAdded = 4.05;
 
         //добавляем деньги пользователю и записываем его в переменную
         User userApi = HttpClientUtil.updateMoneyForUser(id, amountMoneyAdded);
 
-        assertEquals(userApi.getMoney(), (moneyBefore + amountMoneyAdded),
+        assertEquals(String.format("%.2f", userApi.getMoney()),
+                String.format("%.2f", moneyBefore + amountMoneyAdded),
                 "Количество денег после добавления не равно!");
     }
 }
