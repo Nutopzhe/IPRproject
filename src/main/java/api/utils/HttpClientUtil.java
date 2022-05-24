@@ -5,7 +5,6 @@ import api.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Config;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;

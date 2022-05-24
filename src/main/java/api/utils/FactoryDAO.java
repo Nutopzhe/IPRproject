@@ -6,11 +6,13 @@ import api.dao.impl.CarDAOImpl;
 import api.dao.impl.UserDAOImpl;
 
 public class FactoryDAO {
-    private static FactoryDAO instance = null;
-    private static CarDAO carDAO = null;
-    private static UserDAO userDAO = null;
+    private static FactoryDAO instance;
+    private static CarDAO carDAO;
+    private static UserDAO userDAO;
 
-    public static synchronized FactoryDAO getInstance() {
+    private FactoryDAO() {}
+
+    public static FactoryDAO getInstance() {
         if (instance == null) {
             instance = new FactoryDAO();
         }
