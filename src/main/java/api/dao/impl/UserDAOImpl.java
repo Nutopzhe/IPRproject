@@ -1,5 +1,6 @@
-package api.dao;
+package api.dao.impl;
 
+import api.dao.UserDAO;
 import api.entity.User;
 import api.utils.HibernateUtil;
 import org.hibernate.Session;

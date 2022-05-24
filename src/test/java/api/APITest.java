@@ -1,10 +1,11 @@
 package api;
 
-import api.dao.CarDAOImpl;
-import api.dao.UserDAOImpl;
+import api.dao.CarDAO;
+import api.dao.UserDAO;
 import api.entity.Car;
 import api.entity.User;
 import api.utils.EntityGenerator;
+import api.utils.FactoryDAO;
 import api.utils.HttpClientUtil;
 import org.junit.jupiter.api.*;
 
@@ -13,8 +14,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class APITest {
-    UserDAOImpl userDAO = new UserDAOImpl();
-    CarDAOImpl carDAO = new CarDAOImpl();
+    UserDAO userDAO = FactoryDAO.getInstance().getUserDAO();
+    CarDAO carDAO = FactoryDAO.getInstance().getCarDAO();
 
     @Test
     @DisplayName("Получить всех users, проверить с БД")
