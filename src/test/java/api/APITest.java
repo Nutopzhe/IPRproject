@@ -14,9 +14,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
-    1 - доделать фабрику синглтон
-    2 - оставить url в HttpClientUtil, всю реализацию перенести в другой класс
-    3 - связать столбцы (OneToOne и тд)
+    + 1 - доделать фабрику синглтон
+    + 2 - оставить url в HttpClientUtil, всю реализацию перенести в другой класс
+    3 - связать столбцы
     + 4 - addMoneyForUserByIdTest округлить актуальный результат
  */
 

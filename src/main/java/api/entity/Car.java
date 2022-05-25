@@ -12,6 +12,7 @@ import java.util.Objects;
 @Table(name = "car")
 public class Car {
     @Id
+    @GeneratedValue
     private Integer id;
     @Column(name = "type_name")
     private String engineType;
