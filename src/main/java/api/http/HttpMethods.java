@@ -1,71 +1,56 @@
 package api.http;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import api.utils.ObjectMapperUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.UnsupportedEncodingException;
 
 public class HttpMethods {
-    private static final ObjectMapper mapper = new ObjectMapper();
 
-    //метод HttpPost на изменение объектов
-    public static <T> T doPost(String url, Class<T> valueType) {
-        try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost(url);
-            request.setHeader("Content-type", "application/json");
+    //метод HttpPost на добавление и изменения объектов
+    public static <T> HttpResponse doPost(String url, T value) {
+        HttpPost request = new HttpPost(url);
 
-            HttpResponse response = client.execute(request, new HttpClientContext());
-            if (response.getStatusLine().getStatusCode() == 200) {
-            return mapper.readValue(response.getEntity().getContent(), valueType);
+        //если значение не null, то метод используется для добавления
+        //если null, то для изменения
+        if (value != null) {
+            StringEntity entity = null;
+            try {
+                entity = new StringEntity(ObjectMapperUtil.writeValue(value));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        throw new RuntimeException("Не удалось отправить POST запрос!");
-    }
-
-    //метод HttpPost на добавление объектов
-    public static <T> T doPost(String url, T value, Class<T> valueType) {
-        try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpPost request = new HttpPost(url);
-
-            StringEntity entity = new StringEntity(mapper.writeValueAsString(value));
             request.setEntity(entity);
             request.setHeader("Accept", "application/json");
-            request.setHeader("Content-type", "application/json");
-
-            HttpResponse response = client.execute(request, new HttpClientContext());
-
-            return mapper.readValue(response.getEntity().getContent(), valueType);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        throw new RuntimeException("Не удалось отправить POST запрос!");
+        request.setHeader("Content-type", "application/json");
+
+        return getResponse(request);
+
     }
 
     //метод HttpGet на получение объектов
-    public static <T> List<T> doGet(String url, Class<T[]> valueType) {
-        List<T> list = new ArrayList<>();
-        try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet(url);
+    public static HttpResponse doGet(String url) {
+        HttpGet request = new HttpGet(url);
 
-            HttpResponse response = client.execute(request);
-            if (response.getStatusLine().getStatusCode() == 200) {
-                list = Arrays.asList(mapper.readValue(response.getEntity().getContent(), valueType));
-            }
-            return list;
-        } catch (Exception e) {
+        return getResponse(request);
+    }
+
+    //метод получения ответа по запросу
+    private static HttpResponse getResponse(HttpUriRequest request) {
+        CloseableHttpClient client = HttpClients.createDefault();
+        try {
+            return client.execute(request);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        throw new RuntimeException("Не удалось отправить GET запрос!");
+        throw new RuntimeException("Не удалось отправить запрос " + request);
     }
 }

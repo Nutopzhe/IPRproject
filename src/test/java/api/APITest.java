@@ -4,21 +4,14 @@ import api.dao.CarDAO;
 import api.dao.UserDAO;
 import api.entity.Car;
 import api.entity.User;
-import api.utils.EntityGenerator;
-import api.utils.FactoryDAO;
+import api.entity.generator.EntityGenerator;
+import api.dao.FactoryDAO;
 import api.utils.HttpClientUtil;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-/*
-    + 1 - доделать фабрику синглтон
-    + 2 - оставить url в HttpClientUtil, всю реализацию перенести в другой класс
-    3 - связать столбцы
-    + 4 - addMoneyForUserByIdTest округлить актуальный результат
- */
 
 public class APITest {
     UserDAO userDAO = FactoryDAO.getInstance().getUserDAO();

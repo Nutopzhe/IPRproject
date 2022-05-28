@@ -1,4 +1,4 @@
-package api.utils;
+package api.entity.generator;
 
 import api.entity.Car;
 import api.entity.User;

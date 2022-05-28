@@ -1,7 +1,5 @@
-package api.utils;
+package api.dao;
 
-import api.dao.CarDAO;
-import api.dao.UserDAO;
 import api.dao.impl.CarDAOImpl;
 import api.dao.impl.UserDAOImpl;
 

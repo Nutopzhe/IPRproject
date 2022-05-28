@@ -1,4 +1,4 @@
-package api.utils;
+package api.entity.generator;
 
 public enum Cars {
     AUDI("Audi", "A3", "CNG"),
