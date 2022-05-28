@@ -7,8 +7,10 @@ import api.entity.User;
 import api.entity.generator.EntityGenerator;
 import api.dao.FactoryDAO;
 import api.utils.HttpClientUtil;
+import api.utils.ObjectMapperUtil;
 import org.junit.jupiter.api.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,10 +19,16 @@ public class APITest {
     UserDAO userDAO = FactoryDAO.getInstance().getUserDAO();
     CarDAO carDAO = FactoryDAO.getInstance().getCarDAO();
 
+    ObjectMapperUtil mapper = new ObjectMapperUtil();
+    HttpClientUtil httpClient = new HttpClientUtil();
+
     @Test
     @DisplayName("Получить всех users, проверить с БД")
     void getAllUsers() {
-        List<User> usersFromAPI = HttpClientUtil.getAllUsers();
+        List<User> usersFromAPI = Arrays.asList(
+                mapper.getValue(
+                        httpClient.getAllUsers(), User[].class)
+        );
         List<User> usersFromDB = userDAO.getAllUsers();
 
         assertEquals(usersFromAPI, usersFromDB);
@@ -29,7 +37,10 @@ public class APITest {
     @Test
     @DisplayName("Получить все cars, проверить с БД")
     void getAllCarsTest() {
-        List<Car> carsFromAPI = HttpClientUtil.getAllCars();
+        List<Car> carsFromAPI = Arrays.asList(
+                mapper.getValue(
+                        httpClient.getAllCars(), Car[].class)
+        );
         List<Car> carsFromDB = carDAO.getAllCars();
 
         assertEquals(carsFromAPI, carsFromDB);
@@ -40,9 +51,10 @@ public class APITest {
     void addNewUserTest() {
         //генератор пользователей
         User user = EntityGenerator.getUser();
-        User userResponse = HttpClientUtil.addUser(user);
+        User userResponse = mapper.getValue(
+                httpClient.addUser(user), User.class);
 
-        assertTrue(HttpClientUtil.getAllUsers().contains(userResponse));
+        assertTrue(userDAO.getAllUsers().contains(userResponse));
     }
 
     @Test
@@ -50,9 +62,10 @@ public class APITest {
     void addNewCarTest() {
         //генератор машин
         Car car = EntityGenerator.getCar();
-        Car carResponse = HttpClientUtil.addCar(car);
+        Car carResponse = mapper.getValue(
+                httpClient.addCar(car), Car.class);
 
-        assertTrue(HttpClientUtil.getAllCars().contains(carResponse));
+        assertTrue(carDAO.getAllCars().contains(carResponse));
     }
 
     @Test
@@ -64,7 +77,9 @@ public class APITest {
         Double amountMoneyAdded = 4.05;
 
         //добавляем деньги пользователю и записываем его в переменную
-        User userApi = HttpClientUtil.updateMoneyForUser(id, amountMoneyAdded);
+        User userApi = mapper.getValue(
+                httpClient.updateMoneyForUser(id, amountMoneyAdded), User.class);
+//        User userApi = HttpClientUtil.updateMoneyForUser(id, amountMoneyAdded);
 
         assertEquals(String.format("%.2f", userApi.getMoney()),
                 String.format("%.2f", moneyBefore + amountMoneyAdded),

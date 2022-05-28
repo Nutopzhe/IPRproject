@@ -2,15 +2,12 @@ package api.utils;
 
 import api.entity.Car;
 import api.entity.User;
+import api.http.HttpMethods;
 import config.Config;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static api.http.HttpMethods.*;
-import static api.utils.ObjectMapperUtil.*;
+import org.apache.http.HttpResponse;
 
 public class HttpClientUtil {
+    private HttpMethods baseMethods = new HttpMethods();
 
     private static String url = Config.getProperty("api.url");
     private static final String ADD_USER = "/addUser";
@@ -20,31 +17,48 @@ public class HttpClientUtil {
     private static final String ADD_MONEY_FOR_USER = "/user/%s/money/%s";
 
     //rest метод добавления денег пользователю по id
-    public static User updateMoneyForUser(int userId, double money) {
-        return getValue(doPost(url + String.format(ADD_MONEY_FOR_USER, userId, money), null), User.class);
+
+    /**
+     * Отправляет POST запрос на добавление денег пользователю по ID
+     * @param userId Id пользователя
+     * @param money Количество денег
+     * @return HttpResponse
+     */
+    public HttpResponse updateMoneyForUser(int userId, double money) {
+        return baseMethods.doPost(url + String.format(ADD_MONEY_FOR_USER, userId, money), null);
     }
 
-    //rest метод добавления нового пользователя
-    public static User addUser(User user) {
-        return getValue(doPost(url + ADD_USER, user), User.class);
+    /**
+     * Отправляет POST запрос на добавление нового пользователя
+     * @param user Принимаемый объект
+     * @return HttpResponse
+     */
+    public HttpResponse addUser(User user) {
+        return baseMethods.doPost(url + ADD_USER, user);
     }
 
-    //rest метод добавления новой машины
-    public static Car addCar(Car car) {
-        return getValue(doPost(url + ADD_CAR, car), Car.class);
+    /**
+     * Отправляет POST запрос на добавление новой машины
+     * @param car Принимаемый объект
+     * @return HttpResponse
+     */
+    public HttpResponse addCar(Car car) {
+        return baseMethods.doPost(url + ADD_CAR, car);
     }
 
-    //rest метод получения всех пользователей
-    public static List<User> getAllUsers() {
-        return Arrays.asList(getValue(
-                doGet(url + GET_ALL_USERS), User[].class)
-        );
+    /**
+     * Отправляет GET запрос на получения всех пользователей
+     * @return HttpResponse
+     */
+    public HttpResponse getAllUsers() {
+        return baseMethods.doGet(url + GET_ALL_USERS);
     }
 
-    //rest метод получения всех машин
-    public static List<Car> getAllCars() {
-        return Arrays.asList(getValue(
-                doGet(url + GET_ALL_CARS), Car[].class)
-        );
+    /**
+     * Отправляет GET запрос на получения всех машин
+     * @return HttpResponse
+     */
+    public HttpResponse getAllCars() {
+        return baseMethods.doGet(url + GET_ALL_CARS);
     }
 }

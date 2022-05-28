@@ -13,9 +13,16 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class HttpMethods {
+    private ObjectMapperUtil mapper = new ObjectMapperUtil();
 
-    //метод HttpPost на добавление и изменения объектов
-    public static <T> HttpResponse doPost(String url, T value) {
+    /**
+     * Метод HttpPost на добавление или изменения объекта
+     *
+     * @param url Путь
+     * @param value Объект который нужно добавить или изменить
+     * @return HttpResponse
+     */
+    public HttpResponse doPost(String url, Object value) {
         HttpPost request = new HttpPost(url);
 
         //если значение не null, то метод используется для добавления
@@ -23,7 +30,7 @@ public class HttpMethods {
         if (value != null) {
             StringEntity entity = null;
             try {
-                entity = new StringEntity(ObjectMapperUtil.writeValue(value));
+                entity = new StringEntity(mapper.writeValue(value));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -36,15 +43,22 @@ public class HttpMethods {
 
     }
 
-    //метод HttpGet на получение объектов
-    public static HttpResponse doGet(String url) {
+    /**
+     * Метод HttpGet на получение объекта
+     * @param url Путь
+     * @return HttpResponse
+     */
+    public HttpResponse doGet(String url) {
         HttpGet request = new HttpGet(url);
 
         return getResponse(request);
     }
 
-    //метод получения ответа по запросу
-    private static HttpResponse getResponse(HttpUriRequest request) {
+    /**
+     * @param request Объект запроса
+     * @return HttpResponse
+     */
+    private HttpResponse getResponse(HttpUriRequest request) {
         CloseableHttpClient client = HttpClients.createDefault();
         try {
             return client.execute(request);

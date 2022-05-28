@@ -7,10 +7,13 @@ import org.apache.http.HttpStatus;
 
 import java.io.IOException;
 
+/**
+ * Класс чтения и записи JSON
+ */
 public class ObjectMapperUtil {
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
-    public static <T> T getValue(HttpResponse response, Class<T> valueType) {
+    public <T> T getValue(HttpResponse response, Class<T> valueType) {
         try {
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_CREATED ||
                     response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -22,7 +25,7 @@ public class ObjectMapperUtil {
         throw new RuntimeException("Не удалось прочитать объект из ответа!");
     }
 
-    public static <T> String writeValue(T value) {
+    public <T> String writeValue(T value) {
         try {
             return mapper.writeValueAsString(value);
         } catch (JsonProcessingException e) {
