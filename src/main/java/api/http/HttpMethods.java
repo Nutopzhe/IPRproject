@@ -59,9 +59,13 @@ public class HttpMethods {
      * @return HttpResponse
      */
     private HttpResponse getResponse(HttpUriRequest request) {
-        CloseableHttpClient client = HttpClients.createDefault();
-        try {
-            return client.execute(request);
+        try(CloseableHttpClient client = HttpClients.createDefault()) {
+            try {
+                return client.execute(request);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            throw new RuntimeException("Не удалось отправить запрос " + request);
         } catch (IOException e) {
             e.printStackTrace();
         }

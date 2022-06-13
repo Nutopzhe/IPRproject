@@ -6,7 +6,7 @@ import api.entity.Car;
 import api.entity.User;
 import api.entity.generator.EntityGenerator;
 import api.dao.FactoryDAO;
-import api.utils.HttpClientUtil;
+import api.utils.PerformanceAPI;
 import api.utils.ObjectMapperUtil;
 import org.junit.jupiter.api.*;
 
@@ -20,7 +20,7 @@ public class APITest {
     CarDAO carDAO = FactoryDAO.getInstance().getCarDAO();
 
     ObjectMapperUtil mapper = new ObjectMapperUtil();
-    HttpClientUtil httpClient = new HttpClientUtil();
+    PerformanceAPI httpClient = new PerformanceAPI();
 
     @Test
     @DisplayName("Получить всех users, проверить с БД")

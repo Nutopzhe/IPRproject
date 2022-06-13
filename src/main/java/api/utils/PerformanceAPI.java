@@ -6,17 +6,10 @@ import api.http.HttpMethods;
 import config.Config;
 import org.apache.http.HttpResponse;
 
-public class HttpClientUtil {
+public class PerformanceAPI {
     private HttpMethods baseMethods = new HttpMethods();
 
     private static String url = Config.getProperty("api.url");
-    private static final String ADD_USER = "/addUser";
-    private static final String ADD_CAR = "/addCar";
-    private static final String GET_ALL_USERS = "/users";
-    private static final String GET_ALL_CARS = "/cars";
-    private static final String ADD_MONEY_FOR_USER = "/user/%s/money/%s";
-
-    //rest метод добавления денег пользователю по id
 
     /**
      * Отправляет POST запрос на добавление денег пользователю по ID
@@ -25,7 +18,7 @@ public class HttpClientUtil {
      * @return HttpResponse
      */
     public HttpResponse updateMoneyForUser(int userId, double money) {
-        return baseMethods.doPost(url + String.format(ADD_MONEY_FOR_USER, userId, money), null);
+        return baseMethods.doPost(url + String.format("/user/%s/money/%s", userId, money), null);
     }
 
     /**
@@ -34,7 +27,7 @@ public class HttpClientUtil {
      * @return HttpResponse
      */
     public HttpResponse addUser(User user) {
-        return baseMethods.doPost(url + ADD_USER, user);
+        return baseMethods.doPost(url + "/addUser", user);
     }
 
     /**
@@ -43,7 +36,7 @@ public class HttpClientUtil {
      * @return HttpResponse
      */
     public HttpResponse addCar(Car car) {
-        return baseMethods.doPost(url + ADD_CAR, car);
+        return baseMethods.doPost(url + "/addCar", car);
     }
 
     /**
@@ -51,7 +44,7 @@ public class HttpClientUtil {
      * @return HttpResponse
      */
     public HttpResponse getAllUsers() {
-        return baseMethods.doGet(url + GET_ALL_USERS);
+        return baseMethods.doGet(url + "/users");
     }
 
     /**
@@ -59,6 +52,6 @@ public class HttpClientUtil {
      * @return HttpResponse
      */
     public HttpResponse getAllCars() {
-        return baseMethods.doGet(url + GET_ALL_CARS);
+        return baseMethods.doGet(url + "/cars");
     }
 }
